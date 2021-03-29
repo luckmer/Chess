@@ -56,3 +56,74 @@ const CreateChessBoard = () => {
   }
 };
 CreateChessBoard();
+
+const ChessPawns = () => {
+  let Pawns = table.filter(
+    (table) =>
+      (table.id >= 49 && table.id <= 56) || (table.id >= 9 && table.id <= 16)
+  );
+  let King = table.filter(
+    (item) => parseFloat(item.id) === 61 || parseFloat(item.id) === 5
+  );
+  let KingII = table.filter(
+    (item) => parseFloat(item.id) === 4 || parseFloat(item.id) === 60
+  );
+  const SetBlackClass = table.filter((item) => item.id >= 1 && item.id <= 16);
+
+  let knight = table.filter(
+    (item) =>
+      parseFloat(item.id) === 2 ||
+      parseFloat(item.id) === 7 ||
+      parseFloat(item.id) === 58 ||
+      parseFloat(item.id) === 63
+  );
+
+  let Tower = table.filter(
+    (item) =>
+      parseFloat(item.id) === 1 ||
+      parseFloat(item.id) === 8 ||
+      parseFloat(item.id) === 57 ||
+      parseFloat(item.id) === 64
+  );
+  let Follower = table.filter(
+    (item) =>
+      parseFloat(item.id) === 3 ||
+      parseFloat(item.id) === 6 ||
+      parseFloat(item.id) === 59 ||
+      parseFloat(item.id) === 62
+  );
+
+  SetBlackClass.forEach((block) => {
+    block.classList.add("a");
+  });
+
+  knight.forEach((block, i) => {
+    block.dataset.k = i;
+    block.classList.add("knight");
+  });
+
+  Follower.forEach((block, i) => {
+    block.dataset.b = i;
+    block.classList.add("bishop");
+  });
+
+  KingII.forEach((block) => {
+    block.classList.add("queen");
+  });
+
+  Tower.forEach((block, i) => {
+    block.dataset.r = i;
+    block.classList.add("rook", `${detectRook[i]}`);
+  });
+
+  Pawns.forEach((block, i) => {
+    block.dataset.p = i;
+    block.classList.add("pawn");
+  });
+
+  King.forEach((block) => {
+    block.classList.add("king");
+  });
+};
+
+ChessPawns();
