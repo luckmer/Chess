@@ -1,0 +1,123 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.upperdiv {
+  border-radius: 10px;
+  background-color: #f0dab5;
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 680px;
+  height: 680px;
+  font-size: 1.5rem;
+}
+
+.board {
+  background-color: #B58763;
+  position: absolute;
+  display: flex;
+  flex-flow: row wrap;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid #B58763;
+  height: 610px;
+  width: 610px;
+}
+
+.square {
+  height: 75px;
+  width: 75px;
+}
+
+.black {
+  background-color: #B58763;
+}
+
+.white {
+  background-color: #f0dab5;
+}
+
+.numbers {
+  height: 100%;
+  width: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  left: 0;
+  top: 0;
+  text-align: center;
+}
+
+.letters {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  text-align: center;
+  height: 5%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+li {
+  color: #B58763;
+  list-style: none;
+}
+
+/* pawns */
+
+.king {
+  background-color: red;
+}
+
+.queen {
+  background-color: orange;
+}
+
+.knight {
+  background-color: sienna;
+}
+
+.rook {
+  background-color: blue;
+}
+
+.pawn {
+  background-color: purple;
+}
+
+
+.bishop {
+  background-color: seagreen;
+}
+
+
+.AbleToMove {
+  border: 5px solid #a7ffa46b;
+}
+
+.Attack {
+  background-color: rgb(214, 75, 75);
+}
+
+.WhiteR,
+.WhiteQ,
+.WhiteF,
+.WhiteB,
+.WhiteN,
+.WhiteY,
+.WhiteX1,
+.WhiteRoad {
+  background-color: #a7ffa46b;
+
+}
