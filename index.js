@@ -128,6 +128,8 @@ const ChessPawns = () => {
 
 ChessPawns();
 
+const Play = (current) => {};
+
 table.forEach((block) =>
   block.addEventListener("click", (block) => Play(block))
 );
