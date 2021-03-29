@@ -127,3 +127,7 @@ const ChessPawns = () => {
 };
 
 ChessPawns();
+
+table.forEach((block) =>
+  block.addEventListener("click", (block) => Play(block))
+);
