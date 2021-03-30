@@ -282,6 +282,88 @@ const DeleteTheSameBlock = (block) => {
   });
 };
 
+const ControlXaxis = (block, id) => {};
+
+const ControlYaxis = (block) => {};
+
+const ControlUserPawns = (block, AbleToMoveBlock) => {};
+
+const GlobalCheck = (AbleToMoveBlock) => {};
+
+const CheckPawnTwo = (blockUpTwo, blockUpOne) => {};
+
+const CheckPawnOne = (blockUpOne, blockUpTwo) => {};
+
+const CheckCollision = (block) => {};
+
+const PawnBlockDetection = (block) => {};
+
+const GlobalAxis = (block) => {};
+
+const Detect = (
+  Up,
+  UpLeft,
+  UpRight,
+  Right,
+  Left,
+  Down,
+  DownRight,
+  DownLeft
+) => {};
+
+const KnightCollision = (block) => {};
+
+const DetectWalls = (
+  block,
+  knightBackRight,
+  knightright,
+  knightTopRight,
+  knightleft,
+  knightBackLeft,
+  knightLeft,
+  knightTopLeft
+) => {};
+
+const FilterXaxis = (block, id) => {};
+
+const FilterYaxis = (block) => {};
+
+const CreateYAxisForQueen = (block) => {};
+
+const DetectYPartTwoQueenCollision = (
+  SetCalculateA,
+  block,
+  DetectQueen,
+  setA
+) => {};
+
+const DetectYQueenCollision = (SetCalculateB, block, DetectQueen, setB) => {};
+
+const CreateXAxisForQueen = (block) => {};
+
+const DetectFirstQueenCollision = (
+  block,
+  SetCalculateA,
+  setA,
+  DetectQueen
+) => {};
+
+const GlobalDetect = (block) => {};
+
+const UpdateQueenColors = (block, DetectQueen) => {};
+
+const DeleteDoubleBlockCopy = (AbleToMoveBlock) => {};
+
+const DetectCollisionForUpPawns = (value, block, CollisionX2) => {};
+
+const DetectBlockCollisionForPawns = (value, block, Collision) => {};
+
+const DetectCopy = (value) => {};
+
+const DetectCollision = (block) => {};
+
+const CheckA = (block) => block.classList.contains("a");
+
 table.forEach((block) =>
   block.addEventListener("click", (block) => Play(block))
 );
