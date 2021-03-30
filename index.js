@@ -147,6 +147,7 @@ const Play = (current) => {
   );
 
   if (AbleToMoveBlock) {
+    //!King
     if (block.classList.contains("king")) {
       CheckCollision(block);
     }
@@ -177,6 +178,84 @@ const Play = (current) => {
       ControlXaxis(block, id);
       ControlYaxis(block);
     }
+    TakeColiderId = AbleToMoveBlock[0].classList[4];
+
+    if (block.classList.contains("WhiteX1")) {
+      let DataSet = parseFloat(AbleToMoveBlock[0].dataset.r);
+      table[block.id - 1].dataset.r = DataSet;
+      DeleteDoubleBlockCopy(AbleToMoveBlock);
+      if (GlobalCheck(AbleToMoveBlock)) {
+        for (let i = 0; i < detectRook.length; i++) {
+          block.classList.add("a", "rook", `${TakeColiderId}`);
+        }
+      }
+
+      AbleToMoveBlock = [];
+      table[block.id - 1].classList.add("rook");
+      table.forEach((block) => {
+        block.classList.remove("WhiteX1");
+      });
+    }
+
+    if (
+      block.classList.contains("WhiteF") ||
+      block.classList.contains("WhiteN")
+    ) {
+      DeleteDoubleBlockCopy(AbleToMoveBlock);
+      if (GlobalCheck(AbleToMoveBlock)) {
+        table[block.id - 1].classList.add("a", "queen");
+      }
+      AbleToMoveBlock = [];
+      table[block.id - 1].classList.add("queen");
+      table.forEach((block) => {
+        block.classList.remove("WhiteR");
+        block.classList.remove("WhiteF");
+        block.classList.remove("WhiteN");
+      });
+    }
+
+    if (
+      block.classList.contains("WhiteR") &&
+      !block.classList.contains("queen")
+    ) {
+      let DataSet = parseFloat(AbleToMoveBlock[0].dataset.b);
+      DeleteDoubleBlockCopy(AbleToMoveBlock);
+      table[block.id - 1].dataset.b = DataSet;
+      if (GlobalCheck(AbleToMoveBlock)) {
+        table[block.id - 1].classList.add("a", "bishop");
+      }
+      AbleToMoveBlock = [];
+      table[block.id - 1].classList.add("bishop");
+
+      table.forEach((block) => block.classList.remove("WhiteR"));
+    }
+
+    if (block.classList.contains("WhiteY")) {
+      let DataSet = parseFloat(AbleToMoveBlock[0].dataset.k);
+      DeleteDoubleBlockCopy(AbleToMoveBlock);
+      table[block.id - 1].dataset.k = DataSet;
+      if (GlobalCheck(AbleToMoveBlock)) {
+        table[block.id - 1].classList.add("a", "knight");
+        AbleToMoveBlock = [];
+      }
+      table[block.id - 1].classList.add("knight");
+      table.forEach((block) => {
+        block.classList.remove("WhiteY");
+      });
+    }
+
+    if (block.classList.contains("WhiteB")) {
+      DeleteDoubleBlockCopy(AbleToMoveBlock);
+      if (GlobalCheck(AbleToMoveBlock)) {
+        table[block.id - 1].classList.add("a", "king");
+        AbleToMoveBlock = [];
+      }
+      table[block.id - 1].classList.add("king");
+      if (block.classList.contains("king")) {
+        table.forEach((block) => block.classList.remove("WhiteB"));
+      }
+    }
+    AbleToMoveBlock = ControlUserPawns(block, AbleToMoveBlock);
   }
 };
 
