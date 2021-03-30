@@ -141,6 +141,43 @@ const Play = (current) => {
       }
     }
   }
+
+  let AbleToMoveBlock = table.filter((item) =>
+    item.classList.contains("AbleToMove")
+  );
+
+  if (AbleToMoveBlock) {
+    if (block.classList.contains("king")) {
+      CheckCollision(block);
+    }
+
+    //!knight
+    if (block.classList.contains("knight")) {
+      KnightCollision(block);
+    }
+
+    //!queen **
+    if (block.classList.contains("queen")) {
+      let id = block.id;
+      CreateXAxisForQueen(block);
+      CreateYAxisForQueen(block);
+      ControlXaxis(block, id);
+      ControlYaxis(block);
+    }
+
+    //!bishop
+    if (block.classList.contains("bishop")) {
+      CreateXAxisForQueen(block);
+      CreateYAxisForQueen(block);
+    }
+
+    //! rook
+    if (block.classList.contains("rook")) {
+      let id = block.id;
+      ControlXaxis(block, id);
+      ControlYaxis(block);
+    }
+  }
 };
 
 const DeleteTheSameBlock = (block) => {
