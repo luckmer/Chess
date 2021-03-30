@@ -119,7 +119,33 @@ const ChessPawns = () => {
 
 ChessPawns();
 
-const Play = (current) => {};
+const Play = (current) => {
+  let block = current.target;
+  DeleteTheSameBlock(block);
+};
+
+const DeleteTheSameBlock = (block) => {
+  possibleClick.forEach((move) => {
+    if (block.classList.contains(`${move}`)) {
+      let Current = document.getElementsByClassName("AbleToMove");
+      if (Current.length === 1) {
+        table.forEach((block) => {
+          block.classList.remove("WhiteRoad");
+          block.classList.remove("WhiteX1");
+          block.classList.remove("WhiteF");
+          block.classList.remove("WhiteY");
+          block.classList.remove("WhiteB");
+          block.classList.remove("WhiteQ");
+          block.classList.remove("WhiteR");
+          block.classList.remove("WhiteN");
+          block.classList.remove("Attack");
+        });
+        Current[0].classList.remove("AbleToMove");
+      }
+      block.classList.add("AbleToMove");
+    }
+  });
+};
 
 table.forEach((block) =>
   block.addEventListener("click", (block) => Play(block))
