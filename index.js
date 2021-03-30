@@ -122,6 +122,25 @@ ChessPawns();
 const Play = (current) => {
   let block = current.target;
   DeleteTheSameBlock(block);
+
+  if (block.classList.contains("AbleToMove")) {
+    let {
+      blockUpOne,
+      blockUpTwo,
+      AttackLeft,
+      AttackRight,
+    } = PawnBlockDetection(block);
+
+    //!pawns
+    if (block.classList.contains("pawn")) {
+      if (parseFloat(block.dataset.id) === 1) {
+        CheckPawnOne(blockUpOne, blockUpTwo, AttackLeft, AttackRight);
+        CheckPawnTwo(blockUpTwo, blockUpOne, AttackLeft, AttackRight);
+      } else {
+        CheckPawnOne(blockUpOne, blockUpTwo, AttackLeft, AttackRight);
+      }
+    }
+  }
 };
 
 const DeleteTheSameBlock = (block) => {
