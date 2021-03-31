@@ -70,19 +70,28 @@ const ChessPawns = () => {
   );
   const SetBlackClass = table.filter((item) => item.id >= 1 && item.id <= 16);
 
-  let knight = table.filter((item) => {
-    let ItemId = parseFloat(item.id);
-    return ItemId === 2 || ItemId === 7 || ItemId === 58 || ItemId === 63;
-  });
+  let knight = table.filter(
+    (item) =>
+      parseFloat(item.id) === 2 ||
+      parseFloat(item.id) === 7 ||
+      parseFloat(item.id) === 58 ||
+      parseFloat(item.id) === 63
+  );
 
-  let Tower = table.filter((item) => {
-    let ItemId = parseFloat(item.id);
-    return ItemId === 1 || ItemId === 8 || ItemId === 57 || ItemId === 64;
-  });
-  let Follower = table.filter((item) => {
-    let ItemId = parseFloat(item.id);
-    return ItemId === 3 || ItemId === 6 || ItemId === 59 || ItemId === 62;
-  });
+  let Tower = table.filter(
+    (item) =>
+      parseFloat(item.id) === 1 ||
+      parseFloat(item.id) === 8 ||
+      parseFloat(item.id) === 57 ||
+      parseFloat(item.id) === 64
+  );
+  let Follower = table.filter(
+    (item) =>
+      parseFloat(item.id) === 3 ||
+      parseFloat(item.id) === 6 ||
+      parseFloat(item.id) === 59 ||
+      parseFloat(item.id) === 62
+  );
 
   SetBlackClass.forEach((block) => {
     block.classList.add("a");
@@ -90,29 +99,35 @@ const ChessPawns = () => {
 
   knight.forEach((block, i) => {
     block.dataset.k = i;
+    block.classList.add(block.classList.contains("a") ? "K" : "k");
     block.classList.add("knight");
   });
 
   Follower.forEach((block, i) => {
     block.dataset.b = i;
+    block.classList.add(block.classList.contains("a") ? "B" : "b");
     block.classList.add("bishop");
   });
 
   KingII.forEach((block) => {
+    block.classList.add(block.classList.contains("a") ? "Q" : "q");
     block.classList.add("queen");
   });
 
   Tower.forEach((block, i) => {
     block.dataset.r = i;
+    block.classList.add(block.classList.contains("a") ? "R" : "r");
     block.classList.add("rook", `${detectRook[i]}`);
   });
 
   Pawns.forEach((block, i) => {
     block.dataset.p = i;
+    block.classList.add(block.classList.contains("a") ? "P" : "p");
     block.classList.add("pawn");
   });
 
   King.forEach((block) => {
+    block.classList.add(block.classList.contains("a") ? "I" : "i");
     block.classList.add("king");
   });
 };
