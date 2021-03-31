@@ -7,11 +7,14 @@
 
 body {
   min-height: 100vh;
+  background-color: #1E2028;
 }
 
 .upperdiv {
+  box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.26);
   border-radius: 10px;
-  background-color: #f0dab5;
+  border: 0;
+  background: linear-gradient(225deg, #F0DAB5 10.42%, #BCAC91 27.08%, #D6C3A3 54.17%, #B1A289 83.33%, rgba(46, 46, 46, 0.19) 100%);
   position: absolute;
   top: 47%;
   left: 50%;
@@ -34,17 +37,19 @@ body {
   width: 610px;
 }
 
-.square {
+div {
   height: 75px;
   width: 75px;
 }
 
 .black {
+  box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.26);
   background-color: #B58763;
 }
 
 .white {
-  background-color: #f0dab5;
+  background: #F0DAB5;
+  box-shadow: inset 0px 0px 10px 2px rgba(0, 0, 0, 0.31);
 }
 
 .numbers {
@@ -70,37 +75,10 @@ body {
 }
 
 li {
+  text-shadow: 0px -1px black;
   color: #B58763;
   list-style: none;
 }
-
-/* pawns */
-
-.king {
-  background-color: red;
-}
-
-.queen {
-  background-color: orange;
-}
-
-.knight {
-  background-color: sienna;
-}
-
-.rook {
-  background-color: blue;
-}
-
-.pawn {
-  background-color: purple;
-}
-
-
-.bishop {
-  background-color: seagreen;
-}
-
 
 .AbleToMove {
   border: 5px solid #a7ffa46b;
@@ -119,5 +97,86 @@ li {
 .WhiteX1,
 .WhiteRoad {
   background-color: #a7ffa46b;
+}
 
+/* white */
+.p {
+  background-image: url("./icons/WhitePawn.png");
+}
+
+.k {
+  background-image: url("./icons/WhiteHorse.png");
+}
+
+.b {
+  background-image: url("./icons/WhiteBishop.png");
+}
+
+.q {
+  background-image: url("./icons/WhiteQueen.png");
+}
+
+.r {
+  background-image: url("./icons/WhiteTower.png");
+}
+
+.i {
+  background-image: url("./icons/WhiteKing.png");
+}
+
+/* black */
+
+.P {
+  background-image: url("./icons/BlackPawn.png");
+}
+
+.K {
+  background-image: url("./icons/BlackHore.png");
+}
+
+.B {
+  background-image: url("./icons/BlackBishop.png");
+}
+
+.Q {
+  background-image: url("./icons/BlackQueen.png");
+}
+
+.R {
+  background-image: url("./icons/BlackTower.png");
+}
+
+.I {
+  background-image: url("./icons/BlackKing.png");
+}
+
+.I,
+.i,
+.Q,
+.q,
+img {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 36%;
+}
+
+.b,
+.B,
+img {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 45%;
+}
+
+.R,
+.r,
+.K,
+.P,
+.K,
+.p,
+.k,
+img {
+  background-repeat: no-repeat;
+  background-size: 55%;
+  background-position: 50%;
 }
