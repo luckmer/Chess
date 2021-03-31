@@ -3,7 +3,6 @@
 # Chess
 
 # Description 
-##
 
 new project created to understand better how filters work in js  
 
