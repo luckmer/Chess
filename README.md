@@ -1,4 +1,4 @@
 #Chess
-![s](https://imgur.com/9tDhz0U.png)
-![s](https://imgur.com/CiRpBLM.png)
-![s](https://imgur.com/tesWwek.png)
+![s](https://imgur.com/jM5rD5n.png)
+![s](https://imgur.com/cBikdK7.png)
+![s](https://imgur.com/plNYKJZ.png)
