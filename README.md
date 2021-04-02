@@ -19,3 +19,11 @@ new project created to understand better how filters work in js
 # inspiration
 https://stock.adobe.com/images/id/179066390?as_campaign=Flaticon&as_content=api&as_audience=srp&tduid=cd54f5c43d7013fb7e2d5c9b828286d9&as_channel=affiliate&as_campclass=redirect&as_source=arvato&asset_id=178529799 
 ##
+
+# Limits
+
+chess with the ability to move around the board and detect the opponent without being able to attack 
+
+# still in progress 
+* possibility of attack
+* ability to change player 
