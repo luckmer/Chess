@@ -127,9 +127,37 @@ ChessPawns();
 
 const Play = (current) => {
   let block = current.target;
-  DeleteTheSameBlock(block);
 
-  if (block.classList.contains("AbleToMove")) {
+  //!clear double click
+  possibleClick.forEach((move) => {
+    if (block.classList.contains(`${move}`)) {
+      let Current = document.getElementsByClassName("AbleToMove");
+
+      if (Current.length === 1) {
+        table.forEach((block) => {
+          block.classList.remove("WhiteRoad");
+          block.classList.remove("WhiteX1");
+          block.classList.remove("WhiteF");
+          block.classList.remove("WhiteY");
+          block.classList.remove("WhiteB");
+          block.classList.remove("WhiteQ");
+          block.classList.remove("WhiteR");
+          block.classList.remove("WhiteN");
+          block.classList.remove("Attack");
+        });
+        Current[0].classList.remove("AbleToMove");
+      }
+      block.classList.add("AbleToMove");
+    }
+  });
+
+  let AbleToMoveBlock = table.filter((item) =>
+    item.classList.contains("AbleToMove")
+  );
+
+  if (AbleToMoveBlock) {
+    GlobalPawnClick = block;
+
     let {
       blockUpOne,
       blockUpTwo,
@@ -140,19 +168,13 @@ const Play = (current) => {
     //!pawns
     if (block.classList.contains("pawn")) {
       if (parseFloat(block.dataset.id) === 1) {
-        CheckPawnOne(blockUpOne, blockUpTwo, AttackLeft, AttackRight);
-        CheckPawnTwo(blockUpTwo, blockUpOne, AttackLeft, AttackRight);
+        CheckPawnOne(blockUpOne, blockUpTwo, AttackLeft, AttackRight, block);
+        CheckPawnTwo(blockUpOne, blockUpTwo, AttackLeft, AttackRight, block);
       } else {
-        CheckPawnOne(blockUpOne, blockUpTwo, AttackLeft, AttackRight);
+        CheckPawnOne(blockUpOne, blockUpTwo, AttackLeft, AttackRight, block);
       }
     }
-  }
 
-  let AbleToMoveBlock = table.filter((item) =>
-    item.classList.contains("AbleToMove")
-  );
-
-  if (AbleToMoveBlock) {
     //!King
     if (block.classList.contains("king")) {
       CheckCollision(block);
@@ -184,85 +206,137 @@ const Play = (current) => {
       ControlXaxis(block, id);
       ControlYaxis(block);
     }
-    TakeColiderId = AbleToMoveBlock[0].classList[4];
 
-    if (block.classList.contains("WhiteX1")) {
-      let DataSet = parseFloat(AbleToMoveBlock[0].dataset.r);
-      table[block.id - 1].dataset.r = DataSet;
-      DeleteDoubleBlockCopy(AbleToMoveBlock);
-      if (GlobalCheck(AbleToMoveBlock)) {
-        for (let i = 0; i < detectRook.length; i++) {
-          block.classList.add("a", "rook", `${TakeColiderId}`);
-        }
-      }
-
-      AbleToMoveBlock = [];
-      table[block.id - 1].classList.add("rook");
-      table.forEach((block) => {
-        block.classList.remove("WhiteX1");
-      });
-    }
-
-    if (
-      block.classList.contains("WhiteF") ||
-      block.classList.contains("WhiteN")
-    ) {
-      DeleteDoubleBlockCopy(AbleToMoveBlock);
-      if (GlobalCheck(AbleToMoveBlock)) {
-        table[block.id - 1].classList.add("a", "queen");
-      }
-      AbleToMoveBlock = [];
-      table[block.id - 1].classList.add("queen");
-      table.forEach((block) => {
-        block.classList.remove("WhiteR");
-        block.classList.remove("WhiteF");
-        block.classList.remove("WhiteN");
-      });
-    }
-
-    if (
-      block.classList.contains("WhiteR") &&
-      !block.classList.contains("queen")
-    ) {
-      let DataSet = parseFloat(AbleToMoveBlock[0].dataset.b);
-      DeleteDoubleBlockCopy(AbleToMoveBlock);
-      table[block.id - 1].dataset.b = DataSet;
-      if (GlobalCheck(AbleToMoveBlock)) {
-        table[block.id - 1].classList.add("a", "bishop");
-      }
-      AbleToMoveBlock = [];
-      table[block.id - 1].classList.add("bishop");
-
-      table.forEach((block) => block.classList.remove("WhiteR"));
-    }
-
-    if (block.classList.contains("WhiteY")) {
-      let DataSet = parseFloat(AbleToMoveBlock[0].dataset.k);
-      DeleteDoubleBlockCopy(AbleToMoveBlock);
-      table[block.id - 1].dataset.k = DataSet;
-      if (GlobalCheck(AbleToMoveBlock)) {
-        table[block.id - 1].classList.add("a", "knight");
-        AbleToMoveBlock = [];
-      }
-      table[block.id - 1].classList.add("knight");
-      table.forEach((block) => {
-        block.classList.remove("WhiteY");
-      });
-    }
-
-    if (block.classList.contains("WhiteB")) {
-      DeleteDoubleBlockCopy(AbleToMoveBlock);
-      if (GlobalCheck(AbleToMoveBlock)) {
-        table[block.id - 1].classList.add("a", "king");
-        AbleToMoveBlock = [];
-      }
-      table[block.id - 1].classList.add("king");
-      if (block.classList.contains("king")) {
-        table.forEach((block) => block.classList.remove("WhiteB"));
-      }
-    }
+    TakeColiderId = AbleToMoveBlock[0] && AbleToMoveBlock[0].classList[4];
+    AbleToMoveBlock = CreateRook(block, AbleToMoveBlock);
+    AbleToMoveBlock = CreateQueen(block, AbleToMoveBlock);
+    AbleToMoveBlock = CreateBishop(block, AbleToMoveBlock);
+    AbleToMoveBlock = CreateKnight(block, AbleToMoveBlock);
+    AbleToMoveBlock = CreateKing(block, AbleToMoveBlock);
     AbleToMoveBlock = ControlUserPawns(block, AbleToMoveBlock);
   }
+};
+
+const CreateRook = (block, AbleToMoveBlock) => {
+  if (block.classList.contains("WhiteX1")) {
+    let DataSet = parseFloat(AbleToMoveBlock[0].dataset.r);
+
+    table[block.id - 1].dataset.r = DataSet;
+
+    DeleteDoubleBlockCopy(AbleToMoveBlock);
+    if (GlobalCheck(AbleToMoveBlock)) {
+      for (let i = 0; i < detectRook.length; i++) {
+        block.classList.add("a", "rook", `${TakeColiderId}`);
+      }
+    }
+
+    AbleToMoveBlock = [];
+    table[block.id - 1].classList.add("rook");
+
+    table.forEach((block) => {
+      block.classList.remove("WhiteX1");
+    });
+
+    block.classList.add(block.classList.contains("a") ? "R" : "r");
+
+    DeleteAttack();
+  }
+  return AbleToMoveBlock;
+};
+
+const CreateKing = (block, AbleToMoveBlock) => {
+  if (block.classList.contains("WhiteB")) {
+    DeleteDoubleBlockCopy(AbleToMoveBlock);
+
+    if (GlobalCheck(AbleToMoveBlock)) {
+      table[block.id - 1].classList.add("a", "I", "king");
+      AbleToMoveBlock = [];
+    }
+
+    table[block.id - 1].classList.add("i", "king");
+
+    if (block.classList.contains("king")) {
+      table.forEach((block) => block.classList.remove("WhiteB"));
+    }
+
+    DeleteAttack();
+  }
+  return AbleToMoveBlock;
+};
+
+const CreateKnight = (block, AbleToMoveBlock) => {
+  if (block.classList.contains("WhiteY")) {
+    let DataSet = parseFloat(AbleToMoveBlock[0].dataset.k);
+
+    DeleteDoubleBlockCopy(AbleToMoveBlock);
+
+    table[block.id - 1].dataset.k = DataSet;
+
+    if (GlobalCheck(AbleToMoveBlock)) {
+      table[block.id - 1].classList.add("a", "knight");
+      AbleToMoveBlock = [];
+    }
+
+    table[block.id - 1].classList.add("knight");
+    table.forEach((block) => {
+      block.classList.remove("WhiteY");
+    });
+
+    block.classList.add(block.classList.contains("a") ? "K" : "k");
+
+    DeleteAttack();
+  }
+  return AbleToMoveBlock;
+};
+
+const CreateBishop = (block, AbleToMoveBlock) => {
+  if (
+    block.classList.contains("WhiteR") &&
+    !block.classList.contains("queen")
+  ) {
+    let DataSet = parseFloat(AbleToMoveBlock[0].dataset.b);
+
+    DeleteDoubleBlockCopy(AbleToMoveBlock);
+
+    table[block.id - 1].dataset.b = DataSet;
+
+    if (GlobalCheck(AbleToMoveBlock)) {
+      table[block.id - 1].classList.add("a", "B", "bishop");
+    }
+
+    AbleToMoveBlock = [];
+    table[block.id - 1].classList.add("b", "bishop");
+
+    table.forEach((block) => block.classList.remove("WhiteR"));
+
+    DeleteAttack();
+  }
+  return AbleToMoveBlock;
+};
+
+const CreateQueen = (block, AbleToMoveBlock) => {
+  if (
+    block.classList.contains("WhiteF") ||
+    block.classList.contains("WhiteN")
+  ) {
+    DeleteDoubleBlockCopy(AbleToMoveBlock);
+
+    if (GlobalCheck(AbleToMoveBlock)) {
+      table[block.id - 1].classList.add("a", "Q", "queen");
+    }
+
+    AbleToMoveBlock = [];
+
+    table[block.id - 1].classList.add("q", "queen");
+    table.forEach((block) => {
+      block.classList.remove("WhiteR");
+      block.classList.remove("WhiteF");
+      block.classList.remove("WhiteN");
+    });
+
+    DeleteAttack();
+  }
+  return AbleToMoveBlock;
 };
 
 const DeleteTheSameBlock = (block) => {
