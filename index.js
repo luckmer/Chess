@@ -337,6 +337,35 @@ const CreateQueen = (block, AbleToMoveBlock) => {
   return AbleToMoveBlock;
 };
 
+const ControlUserPawns = (block, AbleToMoveBlock) => {
+  if (block.classList.contains("WhiteRoad")) {
+    let DataSet = parseFloat(AbleToMoveBlock[0].dataset.p);
+
+    DeleteDoubleBlockCopy(AbleToMoveBlock);
+
+    table[block.id - 1].dataset.p = DataSet;
+
+    if (GlobalCheck(AbleToMoveBlock)) {
+      table[block.id - 1].classList.add("a", "pawn");
+      AbleToMoveBlock = [];
+    }
+
+    table[block.id - 1].classList.add("pawn");
+
+    if (block.classList.contains("pawn")) {
+      table.forEach((block) => {
+        block.classList.remove("WhiteRoad");
+      });
+    }
+    block.dataset.id = 0;
+    block.classList.add(block.classList.contains("a") ? "P" : "p");
+
+    DeleteAttack();
+  }
+  AbleToMoveBlock = [];
+  return AbleToMoveBlock;
+};
+
 const DeleteTheSameBlock = (block) => {
   possibleClick.forEach((move) => {
     if (block.classList.contains(`${move}`)) {
@@ -391,8 +420,6 @@ const ControlYaxis = (block) => {
     DetectQueenClick(block);
   });
 };
-
-const ControlUserPawns = (block, AbleToMoveBlock) => {};
 
 const GlobalCheck = (AbleToMoveBlock) => {};
 
