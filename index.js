@@ -128,11 +128,9 @@ ChessPawns();
 const Play = (current) => {
   let block = current.target;
 
-  //!clear double click
   possibleClick.forEach((move) => {
     if (block.classList.contains(`${move}`)) {
       let Current = document.getElementsByClassName("AbleToMove");
-
       if (Current.length === 1) {
         table.forEach((block) => {
           block.classList.remove("WhiteRoad");
@@ -165,7 +163,6 @@ const Play = (current) => {
       AttackRight,
     } = PawnBlockDetection(block);
 
-    //!pawns
     if (block.classList.contains("pawn")) {
       if (parseFloat(block.dataset.id) === 1) {
         CheckPawnOne(blockUpOne, blockUpTwo, AttackLeft, AttackRight, block);
@@ -175,17 +172,14 @@ const Play = (current) => {
       }
     }
 
-    //!King
     if (block.classList.contains("king")) {
       CheckCollision(block);
     }
 
-    //!knight
     if (block.classList.contains("knight")) {
       KnightCollision(block);
     }
 
-    //!queen **
     if (block.classList.contains("queen")) {
       let id = block.id;
       CreateXAxisForQueen(block);
@@ -194,13 +188,11 @@ const Play = (current) => {
       ControlYaxis(block);
     }
 
-    //!bishop
     if (block.classList.contains("bishop")) {
       CreateXAxisForQueen(block);
       CreateYAxisForQueen(block);
     }
 
-    //! rook
     if (block.classList.contains("rook")) {
       let id = block.id;
       ControlXaxis(block, id);
@@ -208,11 +200,17 @@ const Play = (current) => {
     }
 
     TakeColiderId = AbleToMoveBlock[0] && AbleToMoveBlock[0].classList[4];
+
     AbleToMoveBlock = CreateRook(block, AbleToMoveBlock);
+
     AbleToMoveBlock = CreateQueen(block, AbleToMoveBlock);
+
     AbleToMoveBlock = CreateBishop(block, AbleToMoveBlock);
+
     AbleToMoveBlock = CreateKnight(block, AbleToMoveBlock);
+
     AbleToMoveBlock = CreateKing(block, AbleToMoveBlock);
+
     AbleToMoveBlock = ControlUserPawns(block, AbleToMoveBlock);
   }
 };
@@ -362,7 +360,23 @@ const DeleteTheSameBlock = (block) => {
   });
 };
 
-const ControlXaxis = (block, id) => {};
+const ControlXaxis = (block, id) => {
+  let { FindX2, FindXX2, Find } = FilterXaxis(block, id);
+
+  FindX2.forEach((block) => {
+    DetectQueenClick(block);
+  });
+
+  if (parseFloat(block.id) % ChessWidth !== 0) {
+    Find.forEach((block) => {
+      DetectQueenClick(block);
+    });
+  } else {
+    FindXX2.forEach((block) => {
+      DetectQueenClick(block);
+    });
+  }
+};
 
 const ControlYaxis = (block) => {};
 
@@ -441,6 +455,21 @@ const DetectBlockCollisionForPawns = (value, block, Collision) => {};
 const DetectCopy = (value) => {};
 
 const DetectCollision = (block) => {};
+
+const DetectQueenClick = (block) => {
+  let queen = block.classList.contains("queen");
+  DetectQueen = queen ? true : false;
+
+  if (DetectCollision(block)) {
+    DetectQueen
+      ? block.classList.remove("WhiteF")
+      : block.classList.remove("WhiteX1");
+  } else {
+    DetectQueen
+      ? block.classList.add("WhiteF")
+      : block.classList.add("WhiteX1");
+  }
+};
 
 const CheckA = (block) => block.classList.contains("a");
 
