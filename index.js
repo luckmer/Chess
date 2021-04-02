@@ -378,7 +378,19 @@ const ControlXaxis = (block, id) => {
   }
 };
 
-const ControlYaxis = (block) => {};
+const ControlYaxis = (block) => {
+  let { filterY, FilterYY } = FilterYaxis(block);
+  let queen = block.classList.contains("queen");
+  DetectQueen = queen ? true : false;
+
+  FilterYY.forEach((block) => {
+    DetectQueenClick(block);
+  });
+
+  filterY.forEach((block) => {
+    DetectQueenClick(block);
+  });
+};
 
 const ControlUserPawns = (block, AbleToMoveBlock) => {};
 
