@@ -421,7 +421,11 @@ const ControlYaxis = (block) => {
   });
 };
 
-const GlobalCheck = (AbleToMoveBlock) => {};
+const GlobalCheck = (AbleToMoveBlock) => {
+  return AbleToMoveBlock[0].classList.contains("a") && AbleToMoveBlock[1]
+    ? AbleToMoveBlock[1].classList.contains("a")
+    : "" || AbleToMoveBlock[0].classList.contains("a");
+};
 
 const CheckPawnTwo = (blockUpTwo, blockUpOne) => {};
 
