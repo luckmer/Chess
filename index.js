@@ -1131,9 +1131,61 @@ const DeleteDoubleBlockCopy = (AbleToMoveBlock) => {
   }
 };
 
-const DetectCollisionForUpPawns = (value, block, CollisionX2) => {};
+const DetectCollisionForUpPawns = (value, block, CollisionX2) => {
+  for (let detect of detectRook) {
+    if (
+      DetectCollision(value) &&
+      parseFloat(value.id) !== parseFloat(block.id) &&
+      !value.classList.contains("a")
+    ) {
+      CollisionX2.add(value);
+    }
 
-const DetectBlockCollisionForPawns = (value, block, Collision) => {};
+    if (
+      DetectCollision(value) &&
+      value.classList.contains(detect) &&
+      parseFloat(value.id) !== parseFloat(block.id)
+    ) {
+      CollisionX2.add(value);
+    }
+
+    if (
+      DetectCollision(value) &&
+      !value.classList.contains(block.classList[3]) &&
+      value.classList.contains("a")
+    ) {
+      CollisionX2.add(value);
+    }
+  }
+};
+
+const DetectBlockCollisionForPawns = (value, block, Collision) => {
+  for (let detect of detectRook) {
+    if (
+      DetectCollision(value) &&
+      parseFloat(value.id) !== parseFloat(block.id) &&
+      !value.classList.contains("a")
+    ) {
+      Collision.add(value);
+    }
+
+    if (
+      DetectCollision(value) &&
+      value.classList.contains(detect) &&
+      parseFloat(value.id) !== parseFloat(block.id)
+    ) {
+      Collision.add(value);
+    }
+
+    if (
+      DetectCollision(value) &&
+      !value.classList.contains(block.classList[3]) &&
+      value.classList.contains("a")
+    ) {
+      Collision.add(value);
+    }
+  }
+};
 
 const DetectCopy = (value) => {};
 
