@@ -1187,7 +1187,13 @@ const DetectBlockCollisionForPawns = (value, block, Collision) => {
   }
 };
 
-const DetectCopy = (value) => {};
+const DetectCopy = (value) => {
+  let dataSetR = parseFloat(value.dataset.r);
+  let dataSetB = parseFloat(value.dataset.b);
+  let dataSetk = parseFloat(value.dataset.k);
+  let dataSetp = parseFloat(value.dataset.p);
+  return { dataSetR, dataSetB, dataSetk, dataSetp };
+};
 
 const DetectCollision = (block) => {};
 
