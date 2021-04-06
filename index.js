@@ -468,9 +468,40 @@ const CheckPawnOne = (
   DetectAttackForPawns(AttackLeft, AttackRight, block);
 };
 
-const CheckCollision = (block) => {};
+const CheckCollision = (block) => {
+  let {
+    Up,
+    UpLeft,
+    UpRight,
+    Right,
+    Left,
+    Down,
+    DownRight,
+    DownLeft,
+  } = GlobalAxis(block);
 
-const PawnBlockDetection = (block) => {};
+  Detect(Up, UpLeft, UpRight, Right, Left, Down, DownRight, DownLeft, block);
+};
+
+const PawnBlockDetection = (block) => {
+  let blockUpOne = CheckA(block)
+    ? table[parseFloat(block.id) - 1 + 8]
+    : table[parseFloat(block.id) - 1 - 8];
+  let blockUpTwo = CheckA(block)
+    ? table[parseFloat(block.id) - 1 + 16]
+    : table[parseFloat(block.id) - 1 - 16];
+
+  //Attack
+  let AttackLeft = CheckA(block)
+    ? table[parseFloat(block.id) - 2 + 8]
+    : table[parseFloat(block.id) - 2 - 8];
+
+  let AttackRight = CheckA(block)
+    ? table[parseFloat(block.id) + 8]
+    : table[parseFloat(block.id) - 8];
+
+  return { blockUpOne, blockUpTwo, AttackLeft, AttackRight };
+};
 
 const GlobalAxis = (block) => {};
 
@@ -482,8 +513,58 @@ const Detect = (
   Left,
   Down,
   DownRight,
-  DownLeft
-) => {};
+  DownLeft,
+  block
+) => {
+  DetectCollision(Up) ? DetectAttack(Up, block) : Up.classList.add("WhiteB");
+
+  DetectCollision(UpLeft)
+    ? DetectAttack(UpLeft, block)
+    : UpLeft.classList.add("WhiteB");
+
+  DetectCollision(UpRight)
+    ? DetectAttack(UpRight, block)
+    : UpRight.classList.add("WhiteB");
+
+  DetectCollision(Right)
+    ? DetectAttack(Right, block)
+    : Right.classList.add("WhiteB");
+
+  DetectCollision(Left)
+    ? DetectAttack(Left, block)
+    : Left && Left.classList.add("WhiteB");
+
+  if (Down) {
+    DetectCollision(Down)
+      ? DetectAttack(Down, block)
+      : Down.classList.add("WhiteB");
+  }
+  if (DownRight) {
+    DetectCollision(DownRight)
+      ? DetectAttack(DownRight, block)
+      : DownRight.classList.add("WhiteB");
+  }
+  if (DownLeft) {
+    DetectCollision(DownLeft)
+      ? DetectAttack(DownLeft, block)
+      : DownLeft.classList.add("WhiteB");
+  }
+
+  if (Right.id % ChessWidth === 2) {
+    UpLeft.classList.remove("WhiteB");
+    UpRight.classList.remove("WhiteB");
+    Left && Left.classList.remove("WhiteB");
+    DownRight && DownRight.classList.remove("WhiteB");
+  }
+
+  if (Right.id % ChessWidth === 1) {
+    Right.classList.remove("WhiteB");
+    DownLeft && DownLeft.classList.remove("WhiteB");
+    DownRight && DownRight.classList.remove("WhiteB");
+    UpRight.classList.remove("WhiteB");
+    UpLeft.classList.remove("WhiteB");
+  }
+};
 
 const KnightCollision = (block) => {};
 
