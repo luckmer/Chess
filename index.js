@@ -20,6 +20,20 @@ let black = false;
 const table = [];
 let TakeColiderId;
 
+// TODO attack ,detect posible attack,
+// TODO how to detect attack ??
+
+const DetectPlayerWithRedColor = () => {
+  let ActivateAttack = false;
+
+  let PawnWithAttack = table.filter((item) =>
+    item.classList.contains("Attack")
+  );
+  ActivateAttack = PawnWithAttack.length >= 1 ? true : false;
+
+  return { ActivateAttack };
+};
+
 const CreateChessControls = () => {
   for (let i = 0; i < ChessBack; i++) {
     let letter = document.createElement("li");
@@ -38,6 +52,7 @@ const CreateChessBoard = () => {
     const square = document.createElement("div");
     square.id = i;
     square.dataset.id = 1;
+
     if (black) {
       square.classList.add("square", "black");
       index++;
@@ -49,6 +64,7 @@ const CreateChessBoard = () => {
     }
     table.push(square);
     board.appendChild(square);
+
     if (index === 8) {
       black = !black;
       index = 0;
@@ -62,12 +78,15 @@ const ChessPawns = () => {
     (table) =>
       (table.id >= 49 && table.id <= 56) || (table.id >= 9 && table.id <= 16)
   );
+
   let King = table.filter(
     (item) => parseFloat(item.id) === 61 || parseFloat(item.id) === 5
   );
+
   let KingII = table.filter(
     (item) => parseFloat(item.id) === 4 || parseFloat(item.id) === 60
   );
+
   const SetBlackClass = table.filter((item) => item.id >= 1 && item.id <= 16);
 
   let knight = table.filter((item) => {
@@ -79,6 +98,7 @@ const ChessPawns = () => {
     let ItemId = parseFloat(item.id);
     return ItemId === 1 || ItemId === 8 || ItemId === 57 || ItemId === 64;
   });
+
   let Follower = table.filter((item) => {
     let ItemId = parseFloat(item.id);
     return ItemId === 3 || ItemId === 6 || ItemId === 59 || ItemId === 62;
@@ -337,6 +357,80 @@ const CreateQueen = (block, AbleToMoveBlock) => {
   return AbleToMoveBlock;
 };
 
+const ControlXaxis = (block, id) => {
+  let queen = block.classList.contains("queen");
+  DetectQueen = queen ? true : false;
+
+  let { FindX2, FindXX2, Find } = FilterXaxis(block, id);
+
+  FindX2.forEach((block) => {
+    if (DetectCollision(block)) {
+      DetectQueen
+        ? block.classList.remove("WhiteF")
+        : block.classList.remove("WhiteX1");
+    } else {
+      DetectQueen
+        ? block.classList.add("WhiteF")
+        : block.classList.add("WhiteX1");
+    }
+  });
+
+  if (parseFloat(block.id) % ChessWidth !== 0) {
+    Find.forEach((block) => {
+      if (DetectCollision(block)) {
+        DetectQueen
+          ? block.classList.remove("WhiteF")
+          : block.classList.remove("WhiteX1");
+      } else {
+        DetectQueen
+          ? block.classList.add("WhiteF")
+          : block.classList.add("WhiteX1");
+      }
+    });
+  } else
+    FindXX2.forEach((block) => {
+      if (DetectCollision(block)) {
+        DetectQueen
+          ? block.classList.remove("WhiteF")
+          : block.classList.remove("WhiteX1");
+      } else {
+        DetectQueen
+          ? block.classList.add("WhiteF")
+          : block.classList.add("WhiteX1");
+      }
+    });
+};
+
+const ControlYaxis = (block) => {
+  let { filterY, FilterYY } = FilterYaxis(block);
+  let queen = block.classList.contains("queen");
+  DetectQueen = queen ? true : false;
+
+  FilterYY.forEach((block) => {
+    if (DetectCollision(block)) {
+      DetectQueen
+        ? block.classList.remove("WhiteF")
+        : block.classList.remove("WhiteX1");
+    } else {
+      DetectQueen
+        ? block.classList.add("WhiteF")
+        : block.classList.add("WhiteX1");
+    }
+  });
+
+  filterY.forEach((block) => {
+    if (DetectCollision(block)) {
+      DetectQueen
+        ? block.classList.remove("WhiteF")
+        : block.classList.remove("WhiteX1");
+    } else {
+      DetectQueen
+        ? block.classList.add("WhiteF")
+        : block.classList.add("WhiteX1");
+    }
+  });
+};
+
 const ControlUserPawns = (block, AbleToMoveBlock) => {
   if (block.classList.contains("WhiteRoad")) {
     let DataSet = parseFloat(AbleToMoveBlock[0].dataset.p);
@@ -358,68 +452,12 @@ const ControlUserPawns = (block, AbleToMoveBlock) => {
       });
     }
     block.dataset.id = 0;
-    1;
     block.classList.add(block.classList.contains("a") ? "P" : "p");
 
     DeleteAttack();
   }
   AbleToMoveBlock = [];
   return AbleToMoveBlock;
-};
-
-const DeleteTheSameBlock = (block) => {
-  possibleClick.forEach((move) => {
-    if (block.classList.contains(`${move}`)) {
-      let Current = document.getElementsByClassName("AbleToMove");
-      if (Current.length === 1) {
-        table.forEach((block) => {
-          block.classList.remove("WhiteRoad");
-          block.classList.remove("WhiteX1");
-          block.classList.remove("WhiteF");
-          block.classList.remove("WhiteY");
-          block.classList.remove("WhiteB");
-          block.classList.remove("WhiteQ");
-          block.classList.remove("WhiteR");
-          block.classList.remove("WhiteN");
-          block.classList.remove("Attack");
-        });
-        Current[0].classList.remove("AbleToMove");
-      }
-      block.classList.add("AbleToMove");
-    }
-  });
-};
-
-const ControlXaxis = (block, id) => {
-  let { FindX2, FindXX2, Find } = FilterXaxis(block, id);
-
-  FindX2.forEach((block) => {
-    DetectQueenClick(block);
-  });
-
-  if (parseFloat(block.id) % ChessWidth !== 0) {
-    Find.forEach((block) => {
-      DetectQueenClick(block);
-    });
-  } else {
-    FindXX2.forEach((block) => {
-      DetectQueenClick(block);
-    });
-  }
-};
-
-const ControlYaxis = (block) => {
-  let { filterY, FilterYY } = FilterYaxis(block);
-  let queen = block.classList.contains("queen");
-  DetectQueen = queen ? true : false;
-
-  FilterYY.forEach((block) => {
-    DetectQueenClick(block);
-  });
-
-  filterY.forEach((block) => {
-    DetectQueenClick(block);
-  });
 };
 
 const GlobalCheck = (AbleToMoveBlock) => {
@@ -466,6 +504,33 @@ const CheckPawnOne = (
   }
 
   DetectAttackForPawns(AttackLeft, AttackRight, block);
+};
+
+const DetectAttackForPawns = (AttackLeft, AttackRight, block) => {
+  let DetectBlackPawn = block.classList.contains("a");
+  let CheckRight = AttackRight.classList.contains("a");
+  let CheckLeft = AttackLeft.classList.contains("a");
+
+  for (let check of possibleClick) {
+    let Right = AttackRight.classList.contains(`${check}`);
+    let Left = AttackLeft.classList.contains(`${check}`);
+
+    console.log(Right && CheckRight && !DetectBlackPawn);
+
+    if (
+      (Right && !CheckRight && DetectBlackPawn) ||
+      (Right && CheckRight && !DetectBlackPawn)
+    ) {
+      AttackRight.classList.add("Attack");
+    }
+
+    if (
+      (Left && !CheckLeft && DetectBlackPawn) ||
+      (Left && CheckLeft && !DetectBlackPawn)
+    ) {
+      AttackLeft.classList.add("Attack");
+    }
+  }
 };
 
 const CheckCollision = (block) => {
@@ -685,14 +750,44 @@ const DetectWalls = (
   block,
   knightBackRight,
   knightright,
+  knightRight,
   knightTopRight,
   knightleft,
   knightBackLeft,
   knightLeft,
   knightTopLeft
-) => {};
+) => {
+  if (parseFloat(block.id) % ChessWidth === 7) {
+    knightBackRight && knightBackRight.classList.remove("WhiteY");
+    knightright && knightright.classList.remove("WhiteY");
+    knightRight && knightRight.classList.remove("WhiteY");
+  }
 
+  if (parseFloat(block.id) % ChessWidth === 0) {
+    knightright && knightright.classList.remove("WhiteY");
+    knightBackRight && knightBackRight.classList.remove("WhiteY");
+    knightTopRight && knightTopRight.classList.remove("WhiteY");
+    knightRight && knightRight.classList.remove("WhiteY");
+    knightLeft && knightLeft.classList.remove("WhiteY");
+  }
+
+  if (parseFloat(block.id) % ChessWidth === 2) {
+    knightleft && knightleft.classList.remove("WhiteY");
+    knightBackLeft && knightBackLeft.classList.remove("WhiteY");
+  }
+
+  if (parseFloat(block.id) % ChessWidth === 1) {
+    knightright && knightright.classList.remove("WhiteY");
+    knightLeft && knightLeft.classList.remove("WhiteY");
+    knightBackLeft && knightBackLeft.classList.remove("WhiteY");
+    knightleft && knightleft.classList.remove("WhiteY");
+    knightTopLeft && knightTopLeft.classList.remove("WhiteY");
+  }
+};
+
+//calculate wall
 const FilterXaxis = (block, id) => {
+  //! update here check later parseFloat(item.id) >= id
   let CalculateX = parseFloat(block.id) % ChessWidth;
   let FilterX = table.filter(
     (item) => parseFloat(item.id) % ChessBoard >= 0 && parseFloat(item.id) >= id
@@ -923,17 +1018,6 @@ const DetectYPartTwoQueenCollision = (
   block,
   DetectQueen,
   setA
-) => {};
-
-const DetectYQueenCollision = (SetCalculateB, block, DetectQueen, setB) => {};
-
-const CreateXAxisForQueen = (block) => {};
-
-const DetectYPartTwoQueenCollision = (
-  SetCalculateA,
-  block,
-  DetectQueen,
-  setA
 ) => {
   let queen = block.classList.contains("queen");
   DetectQueen = queen ? true : false;
@@ -1012,6 +1096,310 @@ const DetectYPartTwoQueenCollision = (
       UpdateQueenColors(block, DetectQueen)
     );
   }
+};
+
+const DetectYQueenCollision = (SetCalculateB, block, DetectQueen, setB) => {
+  let FindDataSet = table.filter(
+    (item) => parseFloat(item.id) === parseFloat(SetCalculateB)
+  );
+  let Collision = new Set();
+  let CollisionX2 = new Set();
+
+  if (FindDataSet.length > 0) {
+    let Find = table.filter(
+      (item) =>
+        parseFloat(item.id) % 7 === block.id % 7 &&
+        parseFloat(item.id) > parseFloat(FindDataSet[0].id) &&
+        parseFloat(item.id) <= block.id
+    );
+
+    for (let value of Find) {
+      DetectBlockCollisionForPawns(value, block, Collision);
+    }
+
+    DetectAttack(
+      [...Collision].reverse()[0] && [...Collision].reverse()[0],
+      block
+    );
+
+    let DetectCollision = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+      let collision = parseFloat(
+        [...Collision].reverse()[0] && [...Collision].reverse()[0].id
+      );
+      let BlockId = parseFloat(block.id);
+      let DataSet = parseFloat(FindDataSet[0].id);
+
+      return (
+        (ItemId % 7 === collision % 7 &&
+          ItemId >= collision &&
+          ItemId <= block.id) ||
+        (Collision.size === 0 &&
+          ItemId % 7 === BlockId % 7 &&
+          ItemId >= DataSet &&
+          ItemId <= block.id)
+      );
+    });
+    DetectCollision.forEach((block) => {
+      UpdateQueenColors(block, DetectQueen);
+    });
+  } else {
+    let SetData = [...setB];
+
+    for (let value of SetData) {
+      DetectCollisionForUpPawns(value, block, CollisionX2);
+    }
+
+    DetectAttack(
+      [...CollisionX2].reverse()[0] && [...CollisionX2].reverse()[0],
+      block
+    );
+
+    let SetCollisionDetect = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+      let collision =
+        [...CollisionX2].reverse()[0] && [...CollisionX2].reverse()[0].id;
+      let BlockId = parseFloat(block.id);
+
+      return (
+        (ItemId % 7 === (collision % 7) - CalculateXXaxis - 1 &&
+          collision % ChessWidth !== 0 &&
+          ItemId > collision &&
+          ItemId < BlockId) ||
+        (CollisionX2.size === 0 &&
+          ItemId % 7 === (block.id % 7) - CalculateXXaxis - 1 &&
+          block.id % ChessWidth !== 0 &&
+          ItemId <= block.id)
+      );
+    });
+
+    SetCollisionDetect.forEach((block) => {
+      UpdateQueenColors(block, DetectQueen);
+    });
+  }
+};
+
+const CreateXAxisForQueen = (block) => {
+  let { SetCalculateB, setB, SetCalculateA, setA, DetectQueen } = GlobalDetect(
+    block
+  );
+
+  let setC = new Set();
+  let Collision = new Set();
+  let CollisionX2 = new Set();
+
+  //!right down axix!!
+  let HalfYAxis = table.filter(
+    (item) =>
+      parseFloat(item.id) % 9 === (block.id % 9) - CalculateXXaxis - 1 &&
+      parseFloat(item.id) > parseFloat(block.id)
+  );
+
+  for (let i = 0; i < HalfYAxis.length; i++) {
+    let check = parseFloat(HalfYAxis[i].id);
+    if (check % ChessBoard === 0) {
+      SetCalculateB = check;
+      HalfYAxis[i].dataset.b = check;
+    }
+
+    if (HalfYAxis[i].dataset.b) {
+      setC.add(HalfYAxis[i]);
+    }
+
+    if (!HalfYAxis[i].dataset.b) {
+      setB.add(HalfYAxis[i]);
+    }
+  }
+
+  for (let check of [...setC]) {
+    if (!setB.has(check)) {
+      setB.add(check);
+    }
+  }
+
+  let FindDataB = table.filter(
+    (item) => parseFloat(item.id) === parseFloat(SetCalculateB)
+  );
+
+  if (FindDataB.length > 0) {
+    let Find = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+
+      return (
+        parseFloat(item.id) % 9 === (block.id % 9) - CalculateXXaxis - 1 &&
+        parseFloat(item.id) <= parseFloat(FindDataB[0].id) &&
+        ItemId >= block.id
+      );
+    });
+
+    for (let value of Find) {
+      DetectBlockCollisionForPawns(value, block, Collision);
+    }
+
+    DetectAttack([...Collision][0] && [...Collision][0], block);
+
+    let DetectCollision = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+      let collision = parseFloat([...Collision][0] && [...Collision][0].id);
+      let BlockID = block.id;
+      let DataSet = parseFloat(FindDataB[0].id);
+
+      return (
+        (ItemId % 9 === (collision % 9) - CalculateXXaxis - 1 &&
+          ItemId <= DataSet &&
+          ItemId <= collision &&
+          ItemId >= BlockID) ||
+        (Collision.size === 0 &&
+          ItemId % 9 === block.id % 9 &&
+          ItemId <= DataSet &&
+          ItemId >= block.id)
+      );
+    });
+
+    DetectCollision.forEach((block) => {
+      UpdateQueenColors(block, DetectQueen);
+    });
+  } else {
+    let DataSet = [...setB];
+
+    for (let value of DataSet) {
+      DetectCollisionForUpPawns(value, block, CollisionX2);
+    }
+
+    DetectAttack([...CollisionX2][0] && [...CollisionX2][0], block);
+
+    let FindDataSet = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+      let collision = parseFloat([...CollisionX2][0] && [...CollisionX2][0].id);
+      let BlockId = parseFloat(block.id);
+
+      return (
+        (ItemId % 9 === (collision % 9) - CalculateXXaxis - 1 &&
+          ItemId <= collision &&
+          ItemId >= BlockId) ||
+        (CollisionX2.size === 0 &&
+          ItemId % 9 === (BlockId % 9) - CalculateXXaxis - 1 &&
+          ItemId >= BlockId)
+      );
+    });
+    FindDataSet.forEach((block) => UpdateQueenColors(block, DetectQueen));
+  }
+
+  SetCalculateA = DetectFirstQueenCollision(
+    block,
+    SetCalculateA,
+    setA,
+    DetectQueen
+  );
+};
+
+const DetectFirstQueenCollision = (block, SetCalculateA, setA, DetectQueen) => {
+  let Collision = new Set();
+  let CollisionX2 = new Set();
+
+  //!left Up AXIS
+
+  let HalfYYaxis = table.filter(
+    (item) =>
+      parseFloat(item.id) % 9 === (block.id % 9) - CalculateXXaxis - 1 &&
+      parseFloat(item.id) <= block.id
+  );
+
+  for (let i = 0; i < HalfYYaxis.length; i++) {
+    let check = parseFloat(HalfYYaxis[i].id);
+
+    if (check % ChessBoard === 1) {
+      SetCalculateA = HalfYYaxis[i].id;
+      HalfYYaxis[i].dataset.e = HalfYYaxis[i].id;
+    }
+
+    if (!HalfYYaxis[i].dataset.e) {
+      setA.add(HalfYYaxis[i]);
+    }
+  }
+
+  //!find Up axis N
+  let FindDataE = table.filter(
+    (item) => parseFloat(item.id) === parseFloat(SetCalculateA)
+  );
+
+  if (FindDataE.length > 0) {
+    let Find = table.filter(
+      (item) =>
+        parseFloat(item.id) % 9 === block.id % 9 &&
+        parseFloat(item.id) >= parseFloat(FindDataE[0].id) &&
+        parseFloat(item.id) <= block.id
+    );
+
+    for (let value of Find) {
+      DetectBlockCollisionForPawns(value, block, Collision);
+    }
+
+    DetectAttack(
+      [...Collision].reverse()[0] && [...Collision].reverse()[0],
+      block
+    );
+
+    let DetectCollision = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+
+      let collision = parseFloat(
+        [...Collision].reverse()[0] && [...Collision].reverse()[0].id
+      );
+
+      let DataSet = parseFloat(FindDataE[0].id);
+      let BlockId = parseFloat(block.id);
+
+      return (
+        (ItemId % 9 === collision % 9 &&
+          ItemId >= collision &&
+          ItemId <= BlockId) ||
+        ([...Collision].length === 0 &&
+          ItemId % 9 === BlockId % 9 &&
+          ItemId >= DataSet &&
+          ItemId < BlockId)
+      );
+    });
+
+    DetectCollision.forEach((block) => {
+      UpdateQueenColors(block, DetectQueen);
+    });
+  } else {
+    let SetData = [...setA];
+
+    for (let value of SetData) {
+      DetectCollisionForUpPawns(value, block, CollisionX2);
+    }
+
+    DetectAttack(
+      [...CollisionX2].reverse()[0] && [...Collision].reverse()[0],
+      block
+    );
+
+    let SetCollisionDetect = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+
+      let collision =
+        [...CollisionX2].reverse()[0] && [...CollisionX2].reverse()[0].id;
+
+      let BlockId = parseFloat(block.id);
+
+      return (
+        (ItemId % 9 === (collision % 9) - CalculateXXaxis - 1 &&
+          ItemId >= collision &&
+          ItemId <= BlockId) ||
+        ([...CollisionX2].length === 0 &&
+          ItemId % 9 === (block.id % 9) - CalculateXXaxis - 1 &&
+          ItemId <= block.id)
+      );
+    });
+
+    SetCollisionDetect.forEach((block) => {
+      UpdateQueenColors(block, DetectQueen);
+    });
+  }
+
+  return SetCalculateA;
 };
 
 const GlobalDetect = (block) => {
@@ -1195,25 +1583,44 @@ const DetectCopy = (value) => {
   return { dataSetR, dataSetB, dataSetk, dataSetp };
 };
 
-const DetectCollision = (block) => {};
-
-const DetectQueenClick = (block) => {
-  let queen = block.classList.contains("queen");
-  DetectQueen = queen ? true : false;
-
-  if (DetectCollision(block)) {
-    DetectQueen
-      ? block.classList.remove("WhiteF")
-      : block.classList.remove("WhiteX1");
-  } else {
-    DetectQueen
-      ? block.classList.add("WhiteF")
-      : block.classList.add("WhiteX1");
+const DetectCollision = (block) => {
+  if (block) {
+    return (
+      block.classList.contains("pawn") ||
+      block.classList.contains("rook") ||
+      block.classList.contains("knight") ||
+      block.classList.contains("bishop") ||
+      block.classList.contains("queen") ||
+      block.classList.contains("Queen") ||
+      block.classList.contains("king")
+    );
   }
+};
+
+const DetectAttack = (pawn, block) => {
+  let DetectBlackPawn = block && block.classList.contains("a");
+  let CheckPawn = pawn && pawn.classList.contains("a");
+
+  for (let check of possibleClick) {
+    let Pawn = pawn && pawn.classList.contains(`${check}`);
+
+    if (
+      (Pawn && CheckPawn && !DetectBlackPawn) ||
+      (Pawn && !CheckPawn && DetectBlackPawn)
+    ) {
+      pawn.classList.add("Attack");
+    }
+  }
+};
+
+const DeleteAttack = () => {
+  table.forEach((block) => {
+    block.classList.remove("Attack");
+  });
 };
 
 const CheckA = (block) => block.classList.contains("a");
 
-table.forEach((block) =>
-  block.addEventListener("click", (block) => Play(block))
-);
+table.forEach((block) => {
+  block.addEventListener("click", (block) => Play(block));
+});
