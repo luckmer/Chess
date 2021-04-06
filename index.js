@@ -692,7 +692,100 @@ const DetectWalls = (
   knightTopLeft
 ) => {};
 
-const FilterXaxis = (block, id) => {};
+const FilterXaxis = (block, id) => {
+  //! update here check later parseFloat(item.id) >= id
+  let CalculateX = parseFloat(block.id) % ChessWidth;
+  let FilterX = table.filter(
+    (item) => parseFloat(item.id) % ChessBoard >= 0 && parseFloat(item.id) >= id
+  );
+  FilterX.length = widthX - CalculateX;
+
+  let Collision = new Set();
+  let CollisionX2 = new Set();
+
+  let FilterX2 = table.filter(
+    (item) =>
+      parseFloat(item.id) +
+        (parseFloat(block.id) % ChessWidth) +
+        CalculateXXaxis +
+        ChessBoard >=
+        id && parseFloat(item.id) <= id
+  );
+
+  for (let value of FilterX) {
+    DetectBlockCollisionForPawns(value, block, Collision);
+  }
+
+  DetectAttack([...Collision][0] && [...Collision][0], block);
+
+  let Find = table.filter((item) => {
+    let ItemID = parseFloat(item.id);
+    let collision = parseFloat([...Collision][0] && [...Collision][0].id);
+
+    return (
+      (ItemID % ChessBoard >= 0 && ItemID >= id && ItemID <= collision) ||
+      ([...Collision].length === 0 && ItemID >= id)
+    );
+  });
+  Find.length = widthX - CalculateX;
+
+  let FilterXX = table.filter(
+    (item) =>
+      parseFloat(item.id) +
+        (parseFloat(block.id) % ChessWidth) +
+        CalculateXXaxis >=
+        id && parseFloat(item.id) <= id
+  );
+
+  for (let value of FilterX2) {
+    DetectCollisionForUpPawns(value, block, CollisionX2);
+  }
+
+  DetectAttack(
+    [...CollisionX2].reverse()[0] && [...CollisionX2].reverse()[0],
+    block
+  );
+
+  for (let value of FilterXX) {
+    DetectCollisionForUpPawns(value, block, CollisionX2);
+  }
+
+  let Reverse =
+    [...CollisionX2].reverse()[0] && [...CollisionX2].reverse()[0].id;
+
+  let FindX2 = table.filter((item) => {
+    let ItemId = parseFloat(item.id);
+
+    return (
+      (ItemId + (parseFloat(id) % ChessWidth) + CalculateXXaxis >= id &&
+        ItemId >= parseFloat(Reverse) &&
+        ItemId <= id) ||
+      ([...CollisionX2].length === 0 &&
+        ItemId + (parseFloat(block.id) % ChessWidth) + CalculateXXaxis >= id &&
+        ItemId <= id)
+    );
+  });
+
+  let FindXX2 = table.filter((item) => {
+    let ItemId = parseFloat(item.id);
+
+    return (
+      (ItemId + (parseFloat(id) % ChessWidth) + CalculateXXaxis + ChessBoard >=
+        id &&
+        ItemId >= parseFloat(Reverse) &&
+        ItemId <= id) ||
+      ([...CollisionX2].length === 0 &&
+        ItemId +
+          (parseFloat(block.id) % ChessWidth) +
+          CalculateXXaxis +
+          ChessBoard >=
+          id &&
+        ItemId <= id)
+    );
+  });
+
+  return { FindX2, FindXX2, Find };
+};
 
 const FilterYaxis = (block) => {};
 
