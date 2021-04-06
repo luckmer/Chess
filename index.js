@@ -929,12 +929,90 @@ const DetectYQueenCollision = (SetCalculateB, block, DetectQueen, setB) => {};
 
 const CreateXAxisForQueen = (block) => {};
 
-const DetectFirstQueenCollision = (
-  block,
+const DetectYPartTwoQueenCollision = (
   SetCalculateA,
-  setA,
-  DetectQueen
-) => {};
+  block,
+  DetectQueen,
+  setA
+) => {
+  let queen = block.classList.contains("queen");
+  DetectQueen = queen ? true : false;
+  let CollisionX2 = new Set();
+  let Collision = new Set();
+
+  let FindDataSetS = table.filter(
+    (item) => parseFloat(item.id) === parseFloat(SetCalculateA)
+  );
+
+  if (FindDataSetS.length > 0) {
+    let Find = table.filter(
+      (item) =>
+        parseFloat(item.id) >= block.id &&
+        parseFloat(item.id) % 7 === (block.id % 7) - CalculateXXaxis - 1 &&
+        block.id % ChessWidth !== 64 &&
+        parseFloat(item.id) <= parseFloat(FindDataSetS[0].id) &&
+        parseFloat(item.id) >= block.id
+    );
+
+    for (let value of Find) {
+      DetectBlockCollisionForPawns(value, block, Collision);
+    }
+
+    DetectAttack([...Collision][0] && [...Collision][0], block);
+
+    let DetectCollision = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+      let collision = parseFloat([...Collision][0] && [...Collision][0].id);
+
+      let BlockId = block.id;
+      let DataSet = parseFloat(FindDataSetS[0].id);
+
+      return (
+        (ItemId % 7 === (BlockId % 7) - CalculateXXaxis - 1 &&
+          BlockId % ChessWidth !== 64 &&
+          ItemId <= collision &&
+          ItemId >= BlockId) ||
+        ([...Collision].length === 0 &&
+          ItemId % 7 === (BlockId % 7) - CalculateXXaxis - 1 &&
+          BlockId % ChessWidth !== 64 &&
+          ItemId <= DataSet &&
+          ItemId >= BlockId)
+      );
+    });
+
+    DetectCollision.forEach((block) => {
+      UpdateQueenColors(block, DetectQueen);
+    });
+  } else {
+    let DataSet = [...setA];
+
+    for (let value of DataSet) {
+      DetectCollisionForUpPawns(value, block, CollisionX2);
+    }
+
+    DetectAttack([...CollisionX2][0] && [...CollisionX2][0], block);
+
+    let DetectSetCollision = table.filter((item) => {
+      let ItemId = parseFloat(item.id);
+      let collision = parseFloat([...CollisionX2][0] && [...CollisionX2][0].id);
+      let BlockId = parseFloat(block.id);
+
+      return (
+        (ItemId % 7 === (collision % 7) - CalculateXXaxis - 1 &&
+          ItemId > BlockId &&
+          ItemId < collision) ||
+        (CollisionX2.size === 0 &&
+          ItemId % 7 === (BlockId % 7) - CalculateXXaxis - 1 &&
+          BlockId % ChessWidth !== 64 &&
+          ItemId >= BlockId)
+      );
+    });
+
+    DetectSetCollision.forEach((block) =>
+      UpdateQueenColors(block, DetectQueen)
+    );
+  }
+};
 
 const GlobalDetect = (block) => {};
 
