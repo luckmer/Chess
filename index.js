@@ -20,9 +20,6 @@ let black = false;
 const table = [];
 let TakeColiderId;
 
-// TODO attack ,detect posible attack,
-// TODO how to detect attack ??
-
 const DetectPlayerWithRedColor = () => {
   let ActivateAttack = false;
 
@@ -357,6 +354,35 @@ const CreateQueen = (block, AbleToMoveBlock) => {
   return AbleToMoveBlock;
 };
 
+const ControlUserPawns = (block, AbleToMoveBlock) => {
+  if (block.classList.contains("WhiteRoad")) {
+    let DataSet = parseFloat(AbleToMoveBlock[0].dataset.p);
+
+    DeleteDoubleBlockCopy(AbleToMoveBlock);
+
+    table[block.id - 1].dataset.p = DataSet;
+
+    if (GlobalCheck(AbleToMoveBlock)) {
+      table[block.id - 1].classList.add("a", "pawn");
+      AbleToMoveBlock = [];
+    }
+
+    table[block.id - 1].classList.add("pawn");
+
+    if (block.classList.contains("pawn")) {
+      table.forEach((block) => {
+        block.classList.remove("WhiteRoad");
+      });
+    }
+    block.dataset.id = 0;
+    block.classList.add(block.classList.contains("a") ? "P" : "p");
+
+    DeleteAttack();
+  }
+  AbleToMoveBlock = [];
+  return AbleToMoveBlock;
+};
+
 const ControlXaxis = (block, id) => {
   let queen = block.classList.contains("queen");
   DetectQueen = queen ? true : false;
@@ -429,35 +455,6 @@ const ControlYaxis = (block) => {
         : block.classList.add("WhiteX1");
     }
   });
-};
-
-const ControlUserPawns = (block, AbleToMoveBlock) => {
-  if (block.classList.contains("WhiteRoad")) {
-    let DataSet = parseFloat(AbleToMoveBlock[0].dataset.p);
-
-    DeleteDoubleBlockCopy(AbleToMoveBlock);
-
-    table[block.id - 1].dataset.p = DataSet;
-
-    if (GlobalCheck(AbleToMoveBlock)) {
-      table[block.id - 1].classList.add("a", "pawn");
-      AbleToMoveBlock = [];
-    }
-
-    table[block.id - 1].classList.add("pawn");
-
-    if (block.classList.contains("pawn")) {
-      table.forEach((block) => {
-        block.classList.remove("WhiteRoad");
-      });
-    }
-    block.dataset.id = 0;
-    block.classList.add(block.classList.contains("a") ? "P" : "p");
-
-    DeleteAttack();
-  }
-  AbleToMoveBlock = [];
-  return AbleToMoveBlock;
 };
 
 const GlobalCheck = (AbleToMoveBlock) => {
