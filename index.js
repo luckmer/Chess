@@ -863,7 +863,60 @@ const FilterYaxis = (block) => {
   return { filterY, FilterYY };
 };
 
-const CreateYAxisForQueen = (block) => {};
+const CreateYAxisForQueen = (block) => {
+  let { SetCalculateB, setB, SetCalculateA, setA, DetectQueen } = GlobalDetect(
+    block
+  );
+
+  //!bottom
+  let HalfXXYAxis = table.filter(
+    (item) =>
+      parseFloat(item.id) % 7 === (block.id % 7) - CalculateXXaxis - 1 &&
+      block.id % ChessWidth !== 64 &&
+      parseFloat(item.id) >= block.id
+  );
+
+  for (let i = 0; i < HalfXXYAxis.length; i++) {
+    let check = parseFloat(HalfXXYAxis[i].id);
+
+    if (check % ChessBoard === 1) {
+      SetCalculateA = HalfXXYAxis[i].id;
+      HalfXXYAxis[i].dataset.s = HalfXXYAxis[i].id;
+    }
+
+    if (!HalfXXYAxis[i].dataset.s) {
+      setA.add(HalfXXYAxis[i]);
+    }
+  }
+  //!TOP
+  let HalfXYAxis = table.filter((item) => {
+    return (
+      parseFloat(item.id) % 7 === (block.id % 7) - CalculateXXaxis - 1 &&
+      block.id % ChessWidth !== 0 &&
+      parseFloat(item.id) <= block.id
+    );
+  });
+
+  for (let i = 0; i < HalfXYAxis.length; i++) {
+    let check = parseFloat(HalfXYAxis[i].id);
+
+    if (check % ChessBoard <= 0 && check !== 1) {
+      SetCalculateB = HalfXYAxis[i].id;
+      HalfXYAxis[i].dataset.n = HalfXYAxis[i].id;
+    }
+
+    if (!HalfXYAxis[i].dataset.n) {
+      setB.add(HalfXYAxis[i]);
+    }
+  }
+  //BOTOM
+
+  let BL = block;
+  DetectYPartTwoQueenCollision(SetCalculateA, BL, DetectQueen, setA);
+
+  //UP
+  DetectYQueenCollision(SetCalculateB, BL, DetectQueen, setB);
+};
 
 const DetectYPartTwoQueenCollision = (
   SetCalculateA,
