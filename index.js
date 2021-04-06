@@ -1025,7 +1025,15 @@ const GlobalDetect = (block) => {
   return { SetCalculateB, setB, SetCalculateA, setA, DetectQueen };
 };
 
-const UpdateQueenColors = (block, DetectQueen) => {};
+const UpdateQueenColors = (block, DetectQueen) => {
+  if (DetectCollision(block)) {
+    DetectQueen
+      ? block.classList.remove("WhiteN")
+      : block.classList.remove("WhiteR");
+  } else {
+    DetectQueen ? block.classList.add("WhiteN") : block.classList.add("WhiteR");
+  }
+};
 
 const DeleteDoubleBlockCopy = (AbleToMoveBlock) => {};
 
