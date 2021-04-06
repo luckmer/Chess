@@ -1035,7 +1035,101 @@ const UpdateQueenColors = (block, DetectQueen) => {
   }
 };
 
-const DeleteDoubleBlockCopy = (AbleToMoveBlock) => {};
+const DeleteDoubleBlockCopy = (AbleToMoveBlock) => {
+  let clearDataWithoutA = [];
+  let ClearDataWithA = [];
+  let DataSetArray = [];
+  let DataSetArrayB = [];
+  let SearchDataSet = "";
+  let DATATEST = "";
+
+  let doubleTest = document.querySelectorAll(
+    `.${AbleToMoveBlock[0].classList[2]}`
+  );
+
+  let UpData = document.querySelectorAll(`.${AbleToMoveBlock[0].classList[3]}`);
+
+  for (let value of UpData) {
+    if (
+      (value.classList.contains("a") && value.classList.contains("queen")) ||
+      (value.classList.contains("a") && value.classList.contains("king"))
+    ) {
+      ClearDataWithA.push(value);
+    }
+    DataSetArrayB.push({ ...value.dataset });
+  }
+
+  for (let value of DataSetArrayB) {
+    for (let x of FindDataSet) {
+      if (value[`${x}`]) {
+        FindCorrectDataSet = x;
+        DATATEST = AbleToMoveBlock[0].dataset[`${x}`];
+      }
+    }
+  }
+
+  for (let value of doubleTest) {
+    if (
+      (!value.classList.contains("a") && value.classList.contains("queen")) ||
+      (!value.classList.contains("a") && value.classList.contains("king"))
+    ) {
+      clearDataWithoutA.push(value);
+    }
+
+    DataSetArray.push({ ...value.dataset });
+  }
+
+  for (let value of DataSetArray) {
+    for (let x of FindDataSet) {
+      if (value[`${x}`]) {
+        SearchDataSet = AbleToMoveBlock[0].dataset[`${x}`];
+      }
+    }
+  }
+
+  for (let value of UpData) {
+    let { dataSetR, dataSetB, dataSetk, dataSetp } = DetectCopy(value);
+
+    if (
+      (value.classList.contains("a") && dataSetR === parseFloat(DATATEST)) ||
+      (value.classList.contains("a") && dataSetB === parseFloat(DATATEST)) ||
+      (value.classList.contains("a") && dataSetp === parseFloat(DATATEST)) ||
+      (value.classList.contains("a") && dataSetk === parseFloat(DATATEST))
+    ) {
+      ClearDataWithA.push(value);
+    }
+  }
+
+  for (let value of doubleTest) {
+    let { dataSetR, dataSetB, dataSetk, dataSetp } = DetectCopy(value);
+
+    if (
+      (!value.classList.contains("a") &&
+        dataSetR === parseFloat(SearchDataSet)) ||
+      (!value.classList.contains("a") &&
+        dataSetp === parseFloat(SearchDataSet)) ||
+      (!value.classList.contains("a") &&
+        dataSetB === parseFloat(SearchDataSet)) ||
+      (!value.classList.contains("a") && dataSetk === parseFloat(SearchDataSet))
+    ) {
+      clearDataWithoutA.push(value);
+    }
+  }
+
+  if (ClearDataWithA.length >= 1) {
+    setTimeout(() => {
+      ClearDataWithA[0].classList.remove(`${AbleToMoveBlock[0].classList[4]}`);
+      ClearDataWithA[0].classList.remove(`${AbleToMoveBlock[0].classList[3]}`);
+      ClearDataWithA[0].classList.remove(`${AbleToMoveBlock[0].classList[2]}`);
+      ClearDataWithA[0].classList.remove(`${ClearDataWithA[0].classList[2]}`);
+    }, 0.1);
+  }
+
+  if (clearDataWithoutA.length >= 1) {
+    clearDataWithoutA[0].classList.remove(`${AbleToMoveBlock[0].classList[3]}`);
+    clearDataWithoutA[0].classList.remove(`${AbleToMoveBlock[0].classList[2]}`);
+  }
+};
 
 const DetectCollisionForUpPawns = (value, block, CollisionX2) => {};
 
