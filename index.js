@@ -599,7 +599,87 @@ const Detect = (
   }
 };
 
-const KnightCollision = (block) => {};
+const KnightCollision = (block) => {
+  let knightTopLeft = CheckA(block)
+    ? table[block.id - 2 + 16]
+    : table[block.id - 3 - 15];
+
+  let knightTopRight = CheckA(block)
+    ? table[block.id - 1 + 17]
+    : table[block.id - 1 - 15];
+
+  let knightleft = CheckA(block)
+    ? table[block.id - 1 + 6]
+    : table[block.id - 1 - 10];
+
+  let knightright = CheckA(block)
+    ? table[block.id - 1 - 17]
+    : table[block.id - 1 - 6];
+
+  let knightBackLeft = CheckA(block)
+    ? table[block.id - 1 - 10]
+    : table[block.id - 1 + 6];
+
+  let knightBackRight = CheckA(block)
+    ? table[block.id - 1 + 10]
+    : table[block.id - 1 + 10];
+
+  let knightLeft = CheckA(block)
+    ? table[block.id - 1 - 15]
+    : table[block.id - 1 + 15];
+
+  let knightRight = CheckA(block)
+    ? table[block.id - 1 - 6]
+    : table[block.id - 1 + 17];
+
+  DetectCollision(knightTopLeft)
+    ? DetectAttack(knightTopLeft, block)
+    : knightTopLeft && knightTopLeft.classList.add("WhiteY");
+
+  DetectCollision(knightTopRight)
+    ? DetectAttack(knightTopRight, block)
+    : knightTopRight && knightTopRight.classList.add("WhiteY");
+
+  DetectCollision(knightleft)
+    ? DetectAttack(knightleft, block)
+    : knightleft && knightleft.classList.add("WhiteY");
+
+  DetectCollision(knightright)
+    ? DetectAttack(knightright, block)
+    : knightright && knightright.classList.add("WhiteY");
+
+  DetectCollision(knightBackRight)
+    ? DetectAttack(knightBackRight, block)
+    : knightBackRight && knightBackRight.classList.add("WhiteY");
+
+  DetectCollision(knightLeft)
+    ? DetectAttack(knightLeft, block)
+    : knightLeft && knightLeft.classList.add("WhiteY");
+
+  DetectCollision(knightTopRight)
+    ? DetectAttack(knightTopRight, block)
+    : knightTopRight && knightTopRight.classList.add("WhiteY");
+
+  DetectCollision(knightBackLeft)
+    ? DetectAttack(knightBackLeft, block)
+    : knightBackLeft && knightBackLeft.classList.add("WhiteY");
+
+  DetectCollision(knightRight)
+    ? DetectAttack(knightRight, block)
+    : knightRight && knightRight.classList.add("WhiteY");
+
+  DetectWalls(
+    block,
+    knightBackRight,
+    knightright,
+    knightRight,
+    knightTopRight,
+    knightleft,
+    knightBackLeft,
+    knightLeft,
+    knightTopLeft
+  );
+};
 
 const DetectWalls = (
   block,
