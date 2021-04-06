@@ -1014,7 +1014,16 @@ const DetectYPartTwoQueenCollision = (
   }
 };
 
-const GlobalDetect = (block) => {};
+const GlobalDetect = (block) => {
+  let queen = block.classList.contains("queen");
+  let SetCalculateA = "";
+  let SetCalculateB = "";
+  let setA = new Set();
+  let setB = new Set();
+  DetectQueen = queen ? true : false;
+
+  return { SetCalculateB, setB, SetCalculateA, setA, DetectQueen };
+};
 
 const UpdateQueenColors = (block, DetectQueen) => {};
 
