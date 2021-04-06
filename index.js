@@ -451,7 +451,22 @@ const CheckPawnTwo = (
   DetectAttackForPawns(AttackLeft, AttackRight, block);
 };
 
-const CheckPawnOne = (blockUpOne, blockUpTwo) => {};
+const CheckPawnOne = (
+  blockUpOne,
+  blockUpTwo,
+  AttackLeft,
+  AttackRight,
+  block
+) => {
+  if (DetectCollision(blockUpOne)) {
+    blockUpTwo.classList.remove("WhiteRoad");
+    blockUpOne.classList.remove("WhiteRoad");
+  } else {
+    blockUpOne.classList.add("WhiteRoad");
+  }
+
+  DetectAttackForPawns(AttackLeft, AttackRight, block);
+};
 
 const CheckCollision = (block) => {};
 
