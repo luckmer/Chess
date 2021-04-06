@@ -503,7 +503,40 @@ const PawnBlockDetection = (block) => {
   return { blockUpOne, blockUpTwo, AttackLeft, AttackRight };
 };
 
-const GlobalAxis = (block) => {};
+const GlobalAxis = (block) => {
+  let Up = CheckA(block)
+    ? table[parseFloat(block.id) - 1 + 8]
+    : table[parseFloat(block.id) - 1 - 8];
+
+  let UpLeft = CheckA(block)
+    ? table[parseFloat(block.id) - 1 + 7]
+    : table[parseFloat(block.id) - 1 - 7];
+
+  let UpRight = CheckA(block)
+    ? table[parseFloat(block.id) - 1 + 9]
+    : table[parseFloat(block.id) - 1 - 9];
+
+  let Right = CheckA(block)
+    ? table[parseFloat(block.id) - 1 + 1]
+    : table[parseFloat(block.id) - 1 + 1];
+
+  let Left = CheckA(block)
+    ? table[parseFloat(block.id) - 1 - 1]
+    : table[parseFloat(block.id) - 1 - 1];
+
+  let Down = CheckA(block)
+    ? table[parseFloat(block.id) - 1 - 8]
+    : table[parseFloat(block.id) - 1 + 8];
+
+  let DownRight = CheckA(block)
+    ? table[parseFloat(block.id) - 1 - 7]
+    : table[parseFloat(block.id) - 1 + 7];
+
+  let DownLeft = CheckA(block)
+    ? table[parseFloat(block.id) - 1 - 9]
+    : table[parseFloat(block.id) - 1 + 9];
+  return { Up, UpLeft, UpRight, Right, Left, Down, DownRight, DownLeft };
+};
 
 const Detect = (
   Up,
