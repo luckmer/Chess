@@ -358,6 +358,7 @@ const ControlUserPawns = (block, AbleToMoveBlock) => {
       });
     }
     block.dataset.id = 0;
+    1;
     block.classList.add(block.classList.contains("a") ? "P" : "p");
 
     DeleteAttack();
@@ -427,7 +428,28 @@ const GlobalCheck = (AbleToMoveBlock) => {
     : "" || AbleToMoveBlock[0].classList.contains("a");
 };
 
-const CheckPawnTwo = (blockUpTwo, blockUpOne) => {};
+const CheckPawnTwo = (
+  blockUpOne,
+  blockUpTwo,
+  AttackLeft,
+  AttackRight,
+  block
+) => {
+  if (DetectCollision(blockUpOne)) {
+    blockUpTwo.classList.remove("WhiteRoad");
+    blockUpOne.classList.remove("WhiteRoad");
+  } else {
+    blockUpOne.classList.add("WhiteRoad");
+  }
+
+  if (DetectCollision(blockUpTwo) || DetectCollision(blockUpOne)) {
+    blockUpTwo.classList.remove("WhiteRoad");
+  } else {
+    blockUpTwo.classList.add("WhiteRoad");
+  }
+
+  DetectAttackForPawns(AttackLeft, AttackRight, block);
+};
 
 const CheckPawnOne = (blockUpOne, blockUpTwo) => {};
 
